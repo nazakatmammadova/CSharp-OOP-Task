@@ -25,9 +25,8 @@ namespace OOPTasks
             Console.WriteLine("Müellimin soyadını daxil edin:");
             string surname = Console.ReadLine();
 
-            Teacher newTeacher = new Teacher(db.Teachers.Length + 1, name,surname);
-            Array.Resize(ref db.Teachers, db.Teachers.Length + 1);
-            db.Teachers[db.Teachers.Length - 1] = newTeacher;
+            Teacher newTeacher = new Teacher(db.Teachers.Count + 1, name,surname);
+            db.Teachers.Add(newTeacher);
 
             Console.WriteLine("\nYeni muellim ugurla yaradildi.");
         }

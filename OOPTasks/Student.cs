@@ -26,9 +26,8 @@ namespace OOPTasks
             Console.WriteLine("Sagirdin soyadını daxil edin:");
             string surname = Console.ReadLine();
 
-            Student newStudent = new Student(db.Students.Length + 1,name,surname);
-            Array.Resize(ref db.Students, db.Students.Length + 1);
-            db.Students[db.Students.Length - 1] = newStudent;
+            Student newStudent = new Student(db.Students.Count + 1,name,surname);
+            db.Students.Add(newStudent);
 
             Console.WriteLine("\nYeni sagird ugurla yaradildi.");
 

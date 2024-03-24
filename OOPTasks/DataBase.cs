@@ -8,43 +8,16 @@ namespace OOPTasks
 {
     internal class DataBase
     {
-        public Teacher[] Teachers ;
-        public Student[] Students;
-        public TeacherStudent[] TeacherStudents;
-
-        public DataBase()
-        {
-                Teachers = new Teacher[]
-                   {
-                        new Teacher(1, "Gulshan", "Settarova"),
-                        new Teacher(2, "Nazli", "Memmedova")
-                   };
-                 Students = new Student[]
-                   {
-                        new Student(1, "Ilkin", "Eliyev"),
+        public List<Teacher> Teachers= new List<Teacher> {new Teacher(1, "Gulshan", "Settarova"),new Teacher(2, "Nazli", "Memmedova")};
+        public List<Student> Students=new List<Student> {new Student(1, "Ilkin", "Eliyev"),
                         new Student(2, "Yunis", "Memmedov"),
                         new Student(3, "Huseyn", "Eliyev"),
                         new Student(4, "Efsane", "Abdullayeva"),
-                        new Student(5, "Ayxan", "Abdullayev")
-                   };
-                    TeacherStudents = new TeacherStudent[]
-                    {
-                                new TeacherStudent(1,Teachers[0],Students[0],"C#","681.21"),
-                                new TeacherStudent(2,Teachers[0],Students[1],"C#","681.21"),
-                                new TeacherStudent(3,Teachers[1],Students[2],"React","681.21"),
-                                new TeacherStudent(4,Teachers[1],Students[3],"React","685.21"),
-                                new TeacherStudent(5,Teachers[1],Students[4],"React","681.21"),
-                                new TeacherStudent(6,Teachers[1],Students[0],"React","681.21"),
-                                new TeacherStudent(7,Teachers[1],Students[1],"React","681.21"),
-                                new TeacherStudent(8,Teachers[0],Students[2],"C#","681.21"),
-                                new TeacherStudent(9,Teachers[0],Students[3],"C#","685.21"),
-                                new TeacherStudent(10,Teachers[0],Students[4],"C#","681.21")
-                    };
-
-        }
+                        new Student(5, "Ayxan", "Abdullayev")};
+        public List<TeacherStudent> TeacherStudents;
         public static void DisplayTeachers(DataBase db)
         {
-            if (db.Teachers.Length == 0)
+            if (db.Teachers.Count == 0)
             {
                 Console.WriteLine("\nMuellim Yoxdur!");
             }
@@ -59,7 +32,7 @@ namespace OOPTasks
         }
         public static void DisplayStudents(DataBase db)
         {
-            if (db.Students.Length == 0)
+            if (db.Students.Count == 0)
             {
                 Console.WriteLine("Sagird Yoxdur!");
             }

@@ -36,10 +36,8 @@ namespace OOPTasks
             Console.WriteLine("Sinif nömresini daxil edin:");
             string classNumber = Console.ReadLine();
 
-            TeacherStudent newTeacherStudent = new TeacherStudent(db.TeacherStudents.Length + 1, DataBase.GetTeacherById(teacherId), DataBase.GetStudentById(studentId),subject,classNumber);
-
-            Array.Resize(ref db.TeacherStudents, db.TeacherStudents.Length + 1);
-            db.TeacherStudents[db.TeacherStudents.Length - 1] = newTeacherStudent;
+            TeacherStudent newTeacherStudent = new TeacherStudent(db.TeacherStudents.Count + 1, DataBase.GetTeacherById(teacherId), DataBase.GetStudentById(studentId),subject,classNumber);
+            db.TeacherStudents.Add(newTeacherStudent);
 
             Console.WriteLine("\nYeni teacher-student elaqesi ugurla yaradildi.");
         }

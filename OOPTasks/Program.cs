@@ -7,30 +7,6 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
-            //OOP task 1
-
-            //while (true)
-            //{
-            //    Console.Write("maşın yaratmaq isteyirsiniz mi? True or False.\n");
-            //    bool cavab = bool.Parse(Console.ReadLine());
-            //    if (cavab)
-            //    {
-            //        Console.Write("Marka (make) daxil edin : ");
-            //        string make = Console.ReadLine();
-            //        Console.Write("Model daxil edin : ");
-            //        string model = Console.ReadLine();
-            //        Console.Write("İl (year) daxil edin : ");
-            //        int year = int.Parse(Console.ReadLine());
-            //        Car car = new Car(make, model, year);
-            //        car.DisplayInfo();
-            //    }
-            //    else
-            //    {
-            //        break;
-            //    }
-            //}
-
-            //OOP task 2
             DataBase db = new DataBase();
             while (true)
             {
@@ -41,6 +17,7 @@ namespace MyApp
                 Console.WriteLine("5) Movcud sagirdleri görmek");
                 Console.WriteLine("6) Bir şagirde ders keçen müellimleri görmek");
                 Console.WriteLine("7) Bir müellimin ders dediyi sagirdleri görmek\n");
+                Console.WriteLine("------------------------------------------------");
 
                 Console.Write("Emeliyyat secin:  ");
                 int choice = int.Parse(Console.ReadLine());

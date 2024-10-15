@@ -8,8 +8,9 @@ namespace OOPTasks
 {
     internal class User
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string Email{ get; set; }
     }
 }

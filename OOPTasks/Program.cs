@@ -7,170 +7,227 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
-            DataBase db = new DataBase();
-            while (true)
+            bool running = true;
+            while (running)
             {
-                Console.WriteLine("Create new User: 1");
-                Console.WriteLine("Display list: 2");
-                Console.WriteLine("Connections: 3");
-                Console.WriteLine("Search: 4");
-                Console.WriteLine("Exit program: 5");
+                Console.WriteLine("1. Yeni istifadeci yarat.");
+                Console.WriteLine("2. Istifadecilerin siyahisina bax.");
+                Console.WriteLine("3. Elaqe yarat.");
+                Console.WriteLine("4. Axtaris elemek.");
+                Console.WriteLine("5. Cixis etmek.");
                 Console.WriteLine("------------------------------------------------");
-                Console.Write("Choose the variant:  ");
-                int choice = int.Parse(Console.ReadLine());
-
+                Console.Write("Secim edin (1-5): ");
+                int choice;
+                while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 5)
+                {
+                    Console.Write("Duzgun secim edin(1-5): ");
+                }
                 switch (choice)
                 {
                     case 1:
-                        newUser();               
+                        newUser();
                         break;
                     case 2:
-                        displayList();
+                        displayList();  
                         break;
                     case 3:
-                        newConnections();
+                        newConnections();  
                         break;
                     case 4:
-                        search();
+                        search(); 
+                        break;
+                    case 5:
+                        running = false;
                         break;
                     default:
-                        Console.WriteLine("Not Choice!");
+                        Console.WriteLine("Yanlis secim!!!".ToUpper());
                         break;
-                }
-                if (choice == 5)
-                {
-                    break;
                 }
                 Console.WriteLine("-------------------------------------");
             }
         }
+
         public static void newUser()
         {
-            Console.WriteLine("Teacher: 1");
-            Console.WriteLine("Student: 2");
-            Console.Write("Choose: ");
-            int userType=int.Parse(Console.ReadLine());
-            string type="";
+            Console.WriteLine("1. Muellim");
+            Console.WriteLine("2. Telebe");
+            Console.Write("Secim edin: ");
+            int userType;
+            while (!int.TryParse(Console.ReadLine(), out userType) || (userType != 1 && userType != 2))
+            {
+                Console.WriteLine("Duzgun secim edin: Muellim ucun 1, Telebe ucun 2");
+            }
+            string type = "";
             User u=null;
             if (userType == 1)
             {
                 u = new Teacher();
-                type = "teacher";
+                type = "muellim";
             }
-            else if(userType == 2)
+            else if (userType == 2)
             {
-                u= new Student();
-                type = "student";
+                u = new Student();
+                type = "telebe";
             }
-            else
-            {
-                Console.WriteLine("Not userType!");
-            }
-            newUserType(u, type,userType);
+            newUserType(u, type, userType);
         }
-        public static void newUserType(User u,string type,int userType)
+        public static void newUserType(User u, string type, int userType)
         {
-            Console.WriteLine($"Insert {type} Id: ");
-            u.Id = long.Parse(Console.ReadLine());
-            Console.WriteLine($"Insert {type} Name: ");
+            Console.Write($"{type} adi daxil edin: ");
             u.Name = Console.ReadLine();
-            Console.WriteLine($"Insert {type} Surname: ");
+            Console.Write($"{type} Soyadi daxil edin: ");
             u.Surname = Console.ReadLine();
-            if(userType == 1)
+            Console.Write($"{type} emaili daxil edin: ");
+            u.Email = Console.ReadLine();
+            Console.Write($"{type} dogum tarixi daxil edin (yyyy-mm-dd): ");
+            DateTime birthDate;
+            while (!DateTime.TryParse(Console.ReadLine(), out birthDate))
             {
-                DataBase.ListTeachers.Add((Teacher)u);
-            }else if (userType==2)
-            {
-                DataBase.ListStudents.Add((Student)u);
+                Console.Write("Duzgun formatda tarix daxil edin (yyyy-mm-dd): ");
             }
+            u.BirthDate = birthDate;
+            if (userType == 1)
+            {
+                Teacher teacher = (Teacher)u;
+                DataBase.ListTeachers.Add(teacher);
+            }
+            else if (userType == 2)
+            {
+                Student student = (Student)u;
+                DataBase.ListStudents.Add(student);
+            }
+            Console.WriteLine($"{u.Name} {u.Surname} adli {type} yaradildi!");
         }
         public static void displayList()
         {
-            Console.WriteLine("Teacher List: 1");
-            Console.WriteLine("Student List: 2");
-            int listType = int.Parse(Console.ReadLine());
-            if(listType == 1)
+            Console.WriteLine("1. Muellimlerin siyahisi");
+            Console.WriteLine("2. Telebelerin siyahisi");
+            Console.Write("Secim edin: ");
+            int listType;
+            while (!int.TryParse(Console.ReadLine(), out listType) || (listType != 1 && listType != 2))
             {
-                foreach(Teacher t in DataBase.ListTeachers)
+                Console.WriteLine("Lütfen geçerli bir seçim yapın: 1 Muellim, 2 Telebe");
+            }
+
+            if (listType == 1)
+            {
+                if (DataBase.ListTeachers.Count > 0)
                 {
-                    Console.WriteLine($"{t.Name} {t.Surname}");
+                    Console.WriteLine("Muellimlerin siyahisi:");
+                    foreach (Teacher t in DataBase.ListTeachers)
+                    {
+                        Console.WriteLine($"{t.Id} ID. {t.Name} {t.Surname}");
+                    }
                 }
-            }else if(listType == 2)
-            {
-                foreach (Student s in DataBase.ListStudents)
+                else
                 {
-                    Console.WriteLine($"{s.Name} {s.Surname}");
+                    Console.WriteLine("Muellimlerin siyahisi bosdur.");
                 }
             }
-            else
+            else if (listType == 2)
             {
-                Console.WriteLine("Not list!");
+                if (DataBase.ListStudents.Count > 0)
+                {
+                    Console.WriteLine("Telebelerin siyahisi:");
+                    foreach (Student s in DataBase.ListStudents)
+                    {
+                        Console.WriteLine($"{s.Id} ID. {s.Name} {s.Surname}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Telebelerin siyahisi bosdur.");
+                }
             }
         }
+
         public static void newConnections()
         {
             TeacherStudent teacherStudent = new TeacherStudent();
-            Console.Write("TeacherStudent Id: ");
-            teacherStudent.Id=int.Parse(Console.ReadLine());
-            Console.Write("Teacher Id: ");
-            int teacherId=int.Parse(Console.ReadLine());
-            Console.Write("Student Id: ");
-            int studentId=int.Parse(Console.ReadLine());
-            foreach (Teacher t in DataBase.ListTeachers)
+            Console.Write("Muellim ID-si daxil edin: ");
+            int teacherId = int.Parse(Console.ReadLine());
+            Teacher foundTeacher = DataBase.ListTeachers.FirstOrDefault(t => t.Id == teacherId);
+            if (foundTeacher != null)
             {
-                if (t.Id==teacherId)
-                {
-                    teacherStudent.Teacher = t;
-                }
+                teacherStudent.Teacher = foundTeacher;
             }
-            foreach (Student s in DataBase.ListStudents)
+            else
             {
-                if(s.Id==studentId)
-                {
-                    teacherStudent.Student = s;
-                }
+                Console.WriteLine("Bele bir muellim ID-si yoxdur.");
+                return;
             }
-            Console.Write("TeacherStudent subject: ");
+            Console.Write("Telebe ID-si daxil edin: ");
+            int studentId = int.Parse(Console.ReadLine());
+            Student foundStudent = DataBase.ListStudents.FirstOrDefault(s => s.Id == studentId);
+            if (foundStudent != null)
+            {
+                teacherStudent.Student = foundStudent;
+            }
+            else
+            {
+                Console.WriteLine("Bele bir telebe ID-si yoxdur.");
+                return;
+            }
+            Console.Write("Muelliminn ders kecdiyi fenni daxil edin: ");
             teacherStudent.Subject = Console.ReadLine();
-            Console.Write("TeacherStudent classNumber: ");
+            Console.Write("Muellimin ders kecdiyi sinifin nomresini daxil edin: ");
             teacherStudent.ClassNumber = Console.ReadLine();
             DataBase.ListTeacherStudents.Add(teacherStudent);
+            Console.WriteLine($"{teacherStudent.Teacher.Name} müellim, " +
+                $"{teacherStudent.ClassNumber} sinfinde olan {teacherStudent.Student.Name}" +
+                $" şagirde {teacherStudent.Subject} fənnindwn dwrs keçir.");
         }
+
         public static void search()
         {
-            Console.WriteLine("Teacher to Students: 1");
-            Console.WriteLine("Student to Teachers: 2");
-            int choose=int.Parse(Console.ReadLine());
-            if(choose==1)
+            Console.WriteLine("1. Bir müellimin ders dediyi şagirdleri görmek");
+            Console.WriteLine("2. Bir şagirde ders keçen müellimleri görmek");
+            Console.Write("Secim edin (1-2): ");
+            int choose = int.Parse(Console.ReadLine());
+            if (choose == 1)
             {
-                Console.Write("Teacher Id: ");
-                int id=int.Parse(Console.ReadLine());
-                Console.WriteLine("Student list: ");
+                Console.Write("Muellim ID-si daxil edin: ");
+                int teacherId = int.Parse(Console.ReadLine());
+                Console.WriteLine($"ID-si {teacherId} olan muellimin ders kecdiyi telebelerin siyahisi: ");
+                bool found = false;
                 foreach (TeacherStudent ts in DataBase.ListTeacherStudents)
                 {
-                    if (ts.Teacher.Id == id)
+                    if (ts.Teacher.Id == teacherId)
                     {
                         Console.WriteLine($"{ts.Student.Name} {ts.Student.Surname}");
+                        found = true;
                     }
                 }
+                if (!found)
+                {
+                    Console.WriteLine("Ders kecilen telebe yoxdur!");
+                }
             }
-            else if(choose==2)
+            else if (choose == 2)
             {
-                Console.Write("Student Id: ");
-                int id = int.Parse(Console.ReadLine());
-                Console.WriteLine("Teacher list: ");
+                Console.Write("Telebe ID-si daxil edin: ");
+                int studentId = int.Parse(Console.ReadLine());
+                Console.WriteLine($"ID-si {studentId} olan telebeye ders kecen muellimlerin siyahisi:");
+                bool found = false;
                 foreach (TeacherStudent ts in DataBase.ListTeacherStudents)
                 {
-                    if (ts.Student.Id == id)
+                    if (ts.Student.Id == studentId)
                     {
                         Console.WriteLine($"{ts.Teacher.Name} {ts.Teacher.Surname}");
+                        found = true;
                     }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Ders kecen muellim yoxdur!");
                 }
             }
             else
             {
-                Console.WriteLine("Not Connect!");
+                Console.WriteLine("Yanlis secim!!");
             }
         }
+
     }
 }
